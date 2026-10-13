@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Mis Documentos - Control P.E{% endblock %}
+{% block content %}
+{% set iconos_doc = {
+    'hoja_vida': '📋',
+    'documento_identidad': '🪪',
+    'seguro_estudiantil': '🛡️',
+    'eps': '⚕️',
+    'sisben': '📊',
+    'carta_presentacion': '✉️',
+} %}
+<div class="card">
+    <h1>Mis Documentos</h1>
+    <p class="small">Sube o reemplaza cada documento cuando lo necesites.</p>
+    {% if primera_vez %}
+    <a class="btn btn-sm" style="background:var(--gris); margin-bottom:0.5rem;" href="{{ url_for('panel.principal') }}">Subir más tarde →</a>
+    {% endif %}
+
+    <div class="grid-documentos">
+        {% for clave, nombre in tipos.items() %}
+        <div class="tarjeta-documento">
+            <div class="tarjeta-documento-header">
+                <div class="tarjeta-documento-icono">{{ iconos_doc.get(clave, '📄') }}</div>
+                <div>
+                    <p class="tarjeta-documento-titulo">
+                        {{ nombre }}
+                        {% if clave == 'carta_presentacion' %}
+                        <span class="tooltip-info">i
+                            <span class="tooltip-texto">Debe estar firmada por el docente de seguimiento y el rector.</span>
+                        </span>
+                        {% endif %}
+                    </p>
+                    {% if clave in documentos_por_tipo %}
+                        <span class="estado-doc estado-doc-listo">✓ Cargado</span>
+                    {% else %}
+                        <span class="estado-doc estado-doc-falta">Falta</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if clave in documentos_por_tipo %}
+            <p class="tarjeta-documento-info">
+                Cargado el {{ documentos_por_tipo[clave].fecha_carga }} —
+                <a href="{{ url_for('static', filename='imagenes/subidas/' + documentos_por_tipo[clave].archivo) }}" target="_blank">Ver archivo</a>
+            </p>
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="tipo" value="{{ clave }}">
+                <input type="file" name="archivo" required>
+                <button class="btn btn-sm" type="submit">
+                    {% if clave in documentos_por_tipo %}Reemplazar{% else %}Subir{% endif %}
+                </button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

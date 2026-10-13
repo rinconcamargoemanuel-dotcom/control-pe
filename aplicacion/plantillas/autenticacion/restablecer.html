@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Nueva contraseña - Control P.E{% endblock %}
+{% block content %}
+<div class="login-wrap card">
+    <h1>Elige tu nueva contraseña</h1>
+    <form method="POST" autocomplete="off">
+        <label>Contraseña nueva</label>
+        <input type="password" name="password" required minlength="6" autocomplete="new-password">
+        <label>Confirmar contraseña nueva</label>
+        <input type="password" name="confirmar_password" required minlength="6" autocomplete="new-password">
+        <button class="btn" type="submit" style="width:100%">Guardar contraseña</button>
+    </form>
+</div>
+{% endblock %}

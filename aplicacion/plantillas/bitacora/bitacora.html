@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Bitácora - Control P.E{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Cargar Bitácora Mensual</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <label>Mes</label>
+        <select name="mes" required>
+            {% for m in meses %}
+            <option value="{{ m }}" {% if m == mes_actual %}selected{% endif %}>{{ m }}</option>
+            {% endfor %}
+        </select>
+        <label>Año</label>
+        <input type="number" name="anio" value="{{ anio_actual }}" required>
+        <label>Archivo (pdf, png, jpg, jpeg, docx, xlsx)</label>
+        <input type="file" name="archivo" required>
+        <button class="btn" type="submit">Subir bitácora</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Bitácoras cargadas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Mes</th>
+                <th>Año</th>
+                <th>Archivo</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in registros %}
+            <tr>
+                <td>{{ r.mes }}</td>
+                <td>{{ r.anio }}</td>
+                <td><a href="{{ url_for('static', filename='imagenes/subidas/' + r.archivo) }}" target="_blank">Ver archivo</a></td>
+                <td>{{ r.estado }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4" class="text-center">Sin bitácoras aún.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

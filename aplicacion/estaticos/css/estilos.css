@@ -1,0 +1,757 @@
+:root {
+    --azul: #1d4e89;
+    --azul-osc: #123a63;
+    --azul-claro: #eaf1fb;
+    --verde: #2e8b57;
+    --rojo: #c0392b;
+    --gris: #5a6472;
+    --fondo: #f4f7fb;
+    --borde: #dde5ef;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--fondo);
+    color: #222;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background: var(--azul-osc);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+.navbar-brand strong { display: block; font-size: 1.1rem; }
+.navbar-brand small { color: #cfe0f7; font-size: 0.72rem; }
+
+.logo {
+    background: white;
+    color: var(--azul-osc);
+    font-weight: bold;
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+}
+
+.logo-img {
+    height: 40px;
+    width: auto;
+    border-radius: 8px;
+}
+
+.navbar-links { display: flex; gap: 1.2rem; }
+.navbar-links a {
+    color: #eaf1fb;
+    text-decoration: none;
+    font-size: 0.92rem;
+}
+.navbar-links a:hover { text-decoration: underline; }
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.85rem;
+}
+
+.navbar-user a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-user a:hover {
+    text-decoration: underline;
+}
+
+.navbar-user a em {
+    color: #cfe0f7;
+}
+
+.btn-outline {
+    border: 1px solid #cfe0f7;
+    color: white;
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    text-decoration: none;
+}
+.btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+.container {
+    max-width: 1100px;
+    margin: 1.8rem auto;
+    padding: 0 1.2rem;
+    flex: 1;
+    width: 100%;
+}
+
+.footer {
+    text-align: center;
+    color: var(--gris);
+    padding: 1rem;
+    font-size: 0.8rem;
+    border-top: 1px solid var(--borde);
+    background: white;
+}
+
+.alert {
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+.alert-success { background: #e3f5e9; color: #1e7a45; border: 1px solid #b7e4c7; }
+.alert-danger { background: #fbe6e4; color: var(--rojo); border: 1px solid #f2c4bf; }
+.alert-warning { background: #fff6df; color: #8a6d00; border: 1px solid #f2e1a0; }
+.alert-info { background: var(--azul-claro); color: var(--azul); border: 1px solid #cfe0f7; }
+
+.card {
+    background: white;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 1.4rem;
+    margin-bottom: 1.4rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.card h2, .card h3 { margin-top: 0; color: var(--azul-osc); }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.stat {
+    background: var(--azul-claro);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    text-align: center;
+}
+.stat .num { font-size: 1.8rem; font-weight: bold; color: var(--azul); }
+.stat .label { color: var(--gris); font-size: 0.85rem; }
+
+form label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: #333;
+}
+form input, form select, form textarea {
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+}
+form input:focus, form select:focus, form textarea:focus {
+    outline: none;
+    border-color: var(--azul);
+}
+
+.btn {
+    background: var(--azul);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-block;
+}
+.btn:hover { background: var(--azul-osc); }
+.btn-sm { padding: 0.3rem 0.7rem; font-size: 0.8rem; }
+.btn-danger { background: var(--rojo); }
+.btn-danger:hover { background: #9c2b1f; }
+.btn-green { background: var(--verde); }
+.btn-green:hover { background: #226b40; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+th, td {
+    padding: 0.6rem 0.7rem;
+    border-bottom: 1px solid var(--borde);
+    text-align: left;
+}
+th { background: var(--azul-claro); color: var(--azul-osc); }
+
+.badge {
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.76rem;
+    font-weight: 600;
+}
+.badge-Pendiente { background: #fff6df; color: #8a6d00; }
+.badge-Aprobado { background: #e3f5e9; color: #1e7a45; }
+.badge-Rechazado { background: #fbe6e4; color: var(--rojo); }
+
+/* Aviso de ARL pendiente (banner visible en todas las páginas) */
+.aviso-arl {
+    background: #fff6df;
+    border-bottom: 1px solid #f0d878;
+    color: #8a6d00;
+    text-align: center;
+    padding: 0.7rem 1rem;
+    font-size: 0.92rem;
+}
+.aviso-arl a {
+    color: var(--azul);
+    font-weight: bold;
+    text-decoration: underline;
+    margin-left: 0.4rem;
+}
+
+.login-wrap {
+    max-width: 400px;
+    margin: 3rem auto;
+}
+
+.login-wrap h1 {
+    text-align: center;
+    color: var(--azul-osc);
+    font-size: 1.4rem;
+    text-transform: uppercase;
+}
+
+/* Logo como marca de agua de fondo, dentro de la tarjeta de login */
+.login-con-fondo {
+    position: relative;
+    overflow: hidden;
+}
+
+.login-con-fondo::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 5500px;
+    height: 550px;
+    background-image: url('/estaticos/imagenes/logo/logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.login-con-fondo > * {
+    position: relative;
+    z-index: 1;
+}
+
+.text-center { text-align: center; }
+.mt-1 { margin-top: 1rem; }
+.small { font-size: 0.82rem; color: var(--gris); }
+a { color: var(--azul); }
+
+/* Barra de progreso de horas (seguimiento estudiante) */
+.progreso-wrap { margin: 1rem 0 1.5rem; }
+.progreso-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.35rem;
+}
+.barra-progreso {
+    width: 100%;
+    height: 14px;
+    background: var(--azul-claro);
+    border: 1px solid var(--borde);
+    border-radius: 999px;
+    overflow: hidden;
+}
+.barra-progreso-sm { height: 8px; margin-bottom: 0.2rem; }
+.barra-progreso-relleno {
+    height: 100%;
+    background: linear-gradient(90deg, var(--azul), var(--verde));
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
+/* ---------------------------------------------------------------------
+   Fondo con el logo en patrón (textura) para la pantalla de login.
+   Se activa solo en login.html mediante la clase "pagina-login" en <body>.
+   Requiere que exista el archivo:
+     aplicacion/estaticos/imagenes/logo/logo_control_pe.png
+   (si todavía no tienes esa imagen, esta regla simplemente no muestra
+   nada de fondo — no rompe nada).
+--------------------------------------------------------------------- */
+.pagina-login {
+    position: relative;
+}
+
+.pagina-login::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../imagenes/logo/logo_control_pe.png");
+    background-repeat: repeat;
+    background-size: 90px 90px;
+    opacity: 0.07;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.pagina-login .login-wrap {
+    position: relative;
+    z-index: 1;
+}
+
+/* ---------------------------------------------------------------------
+   Botón "ojito" para mostrar/ocultar contraseña.
+   Se agrega automáticamente a cada input type="password" mediante
+   aplicacion/estaticos/js/ojo_password.js (cargado en base.html).
+--------------------------------------------------------------------- */
+.campo-password-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.campo-password-wrap input[type="password"],
+.campo-password-wrap input[type="text"] {
+    width: 100%;
+    padding-right: 2.4rem; /* deja espacio para el ojito */
+    margin-bottom: 0; /* el margen ya lo pone el contenedor de arriba */
+}
+
+.btn-ojo-password {
+    position: absolute;
+    right: 0.6rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 0.2rem;
+    opacity: 0.7;
+}
+
+.btn-ojo-password:hover {
+    opacity: 1;
+}
+.pagina-login::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><text x='70' y='78' text-anchor='middle' font-family='Segoe UI, Arial, sans-serif' font-size='18' font-weight='bold' fill='%231d4e89' transform='rotate(-15 70 70)'>C.P.E</text></svg>");
+    background-repeat: repeat;
+    background-size: 140px 140px;
+    opacity: 0.10;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.pagina-login .login-wrap {
+    position: relative;
+    z-index: 1;
+}
+
+/* ---------------------------------------------------------------------
+   Modo oscuro. Se activa agregando data-theme="oscuro" en <html>
+   (lo hace el script modo_oscuro.js). Sobrescribe las variables de color.
+--------------------------------------------------------------------- */
+html[data-theme="oscuro"] {
+    --azul-claro: #1c2b3a;
+    --fondo: #0f1620;
+    --borde: #2c3a4a;
+    --gris: #a9b4c0;
+}
+
+html[data-theme="oscuro"] body {
+    background: var(--fondo);
+    color: #e8edf3;
+}
+
+html[data-theme="oscuro"] .card,
+html[data-theme="oscuro"] .footer {
+    background: #16202c;
+    border-color: var(--borde);
+    color: #e8edf3;
+}
+
+html[data-theme="oscuro"] .card h2,
+html[data-theme="oscuro"] .card h3 {
+    color: #cfe0f7;
+}
+
+html[data-theme="oscuro"] form label {
+    color: #d5dde6;
+}
+
+html[data-theme="oscuro"] form input,
+html[data-theme="oscuro"] form select,
+html[data-theme="oscuro"] form textarea {
+    background: #1c2733;
+    border-color: var(--borde);
+    color: #e8edf3;
+}
+
+html[data-theme="oscuro"] table {
+    color: #e8edf3;
+}
+
+html[data-theme="oscuro"] th {
+    background: #1c2b3a;
+    color: #cfe0f7;
+}
+
+html[data-theme="oscuro"] td {
+    border-color: var(--borde);
+}
+
+html[data-theme="oscuro"] a {
+    color: #6fa8ea;
+}
+
+.btn-tema {
+    background: none;
+    border: 1px solid #cfe0f7;
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.btn-tema:hover { background: rgba(255,255,255,0.1); }
+
+/* ---------------------------------------------------------------------
+   Tarjetas de selección de modalidad (pantalla "Elige tu modalidad")
+--------------------------------------------------------------------- */
+.opciones-modalidad {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    margin: 1.2rem 0;
+}
+
+.opcion-modalidad {
+    position: relative;
+    display: block;
+    border: 2px solid var(--borde);
+    border-radius: 12px;
+    padding: 1rem 1.2rem 1rem 3rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.opcion-modalidad:hover {
+    border-color: var(--azul);
+    background: var(--azul-claro);
+}
+
+.opcion-modalidad input[type="radio"] {
+    position: absolute;
+    left: 1.1rem;
+    top: 1.15rem;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--azul);
+    cursor: pointer;
+}
+
+.opcion-modalidad input[type="radio"]:checked ~ .opcion-modalidad-contenido {
+    color: var(--azul-osc);
+}
+
+.opcion-modalidad:has(input[type="radio"]:checked) {
+    border-color: var(--azul);
+    background: var(--azul-claro);
+    box-shadow: 0 0 0 1px var(--azul);
+}
+
+.opcion-modalidad-titulo {
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--azul-osc);
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.opcion-modalidad-horas {
+    display: inline-block;
+    background: var(--azul);
+    color: white;
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 0.15rem 0.55rem;
+    border-radius: 20px;
+    margin-top: 0.35rem;
+}
+
+html[data-theme="oscuro"] .opcion-modalidad {
+    border-color: var(--borde);
+}
+html[data-theme="oscuro"] .opcion-modalidad:hover,
+html[data-theme="oscuro"] .opcion-modalidad:has(input[type="radio"]:checked) {
+    background: #1c2b3a;
+}
+
+/* ---------------------------------------------------------------------
+   Tarjetas de "Mis Documentos"
+--------------------------------------------------------------------- */
+.grid-documentos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.1rem;
+    margin-top: 1rem;
+}
+
+.tarjeta-documento {
+    background: white;
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+    padding: 1.2rem;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.tarjeta-documento:hover {
+    box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+    transform: translateY(-2px);
+}
+
+.tarjeta-documento-header {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.6rem;
+}
+
+.tarjeta-documento-icono {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--azul-claro);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.tarjeta-documento-titulo {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--azul-osc);
+    margin: 0;
+    line-height: 1.25;
+}
+
+.estado-doc {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.15rem 0.55rem;
+    border-radius: 20px;
+    margin-top: 0.15rem;
+}
+.estado-doc-falta { background: #fbe6e4; color: var(--rojo); }
+.estado-doc-listo { background: #e3f5e9; color: #1e7a45; }
+
+.tarjeta-documento-aviso {
+    background: var(--azul-claro);
+    border-left: 3px solid var(--azul);
+    padding: 0.5rem 0.7rem;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    color: var(--azul-osc);
+    margin-bottom: 0.7rem;
+}
+
+.tarjeta-documento-info {
+    font-size: 0.78rem;
+    color: var(--gris);
+    margin-bottom: 0.7rem;
+}
+
+.tarjeta-documento form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.tarjeta-documento form input[type="file"] {
+    margin-bottom: 0;
+    font-size: 0.8rem;
+}
+
+html[data-theme="oscuro"] .tarjeta-documento {
+    background: #16202c;
+    border-color: var(--borde);
+}
+html[data-theme="oscuro"] .tarjeta-documento-icono {
+    background: #1c2b3a;
+}
+
+/* ---------------------------------------------------------------------
+   Banner colapsable de avisos pendientes
+--------------------------------------------------------------------- */
+.banner-avisos {
+    background: #fff6df;
+    border-bottom: 1px solid #f0d878;
+}
+
+.banner-avisos summary {
+    cursor: pointer;
+    padding: 0.7rem 1rem;
+    text-align: center;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #8a6d00;
+    list-style: none;
+}
+.banner-avisos summary::-webkit-details-marker { display: none; }
+.banner-avisos summary::marker { content: ""; }
+
+.banner-avisos-contenido {
+    padding: 0 1.2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.banner-avisos-contenido p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #8a6d00;
+}
+.banner-avisos-contenido a {
+    color: var(--azul);
+    font-weight: bold;
+    text-decoration: underline;
+    margin-left: 0.4rem;
+}
+
+html[data-theme="oscuro"] .banner-avisos {
+    background: #2b2410;
+    border-color: #4a3f1a;
+}
+html[data-theme="oscuro"] .banner-avisos summary,
+html[data-theme="oscuro"] .banner-avisos-contenido p {
+    color: #e8d99a;
+}
+
+/* ---------------------------------------------------------------------
+   Estadísticas del dashboard con icono
+--------------------------------------------------------------------- */
+.stat-icono {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    text-align: left;
+}
+.stat-icono .icono {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* ---------------------------------------------------------------------
+   Tarjetas de accesos rápidos con borde de color por categoría
+--------------------------------------------------------------------- */
+.tarjeta-acceso {
+    border-top: 4px solid var(--borde);
+}
+.tarjeta-acceso-bitacora { border-top-color: #4285f4; }
+.tarjeta-acceso-horas { border-top-color: #9c27b0; }
+.tarjeta-acceso-arl { border-top-color: #26a69a; }
+.tarjeta-acceso-documentos { border-top-color: #ff9800; }
+
+/* ---------------------------------------------------------------------
+   Barra de progreso más protagonista
+--------------------------------------------------------------------- */
+.barra-progreso-grande {
+    height: 22px;
+    border-radius: 999px;
+}
+.barra-progreso-grande .barra-progreso-relleno {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.5rem;
+    font-size: 0.7rem;
+    color: white;
+    font-weight: 700;
+}
+
+/* ---------------------------------------------------------------------
+   Tooltip informativo (ícono con texto emergente al pasar el mouse)
+--------------------------------------------------------------------- */
+.tooltip-info {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--azul);
+    color: white;
+    font-size: 0.72rem;
+    font-weight: bold;
+    cursor: help;
+    margin-left: 0.3rem;
+}
+
+.tooltip-info .tooltip-texto {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--azul-osc);
+    color: white;
+    text-align: left;
+    padding: 0.5rem 0.7rem;
+    border-radius: 8px;
+    font-size: 0.76rem;
+    font-weight: normal;
+    width: 200px;
+    z-index: 10;
+    transition: opacity 0.15s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.tooltip-info:hover .tooltip-texto {
+    visibility: visible;
+    opacity: 1;
+}

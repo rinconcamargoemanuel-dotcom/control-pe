@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Historial de Cargas - Control P.E{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Historial de Cargas</h1>
+    <p class="small">Todo lo que has subido: Bitácora, Control de Horas, ARL y Evidencias.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Detalle</th>
+                <th>Fecha</th>
+                <th>Archivo</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in registros %}
+            <tr>
+                <td>{{ r.tipo }}</td>
+                <td>{{ r.detalle }}</td>
+                <td>{{ r.fecha }}</td>
+                <td><a href="{{ url_for('static', filename='imagenes/subidas/' + r.archivo) }}" target="_blank">Ver archivo</a></td>
+                <td><span class="badge badge-{{ r.estado }}">{{ r.estado }}</span></td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="text-center small">Aún no has subido nada.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

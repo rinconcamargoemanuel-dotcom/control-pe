@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Usuarios - Control P.E{% endblock %}
+{% block content %}
+<div class="card">
+    <h2>Gestión de usuarios</h2>
+    <a class="btn" href="{{ url_for('usuarios.nuevo') }}">+ Nuevo usuario</a>
+</div>
+
+<div class="card">
+    <table>
+        <thead><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Empresa</th><th></th></tr></thead>
+        <tbody>
+        {% for u in usuarios %}
+            <tr>
+                <td>{{ u.nombre }}</td>
+                <td>{{ u.email }}</td>
+                <td>{{ u.rol }}</td>
+                <td>{{ u.empresa or "—" }}</td>
+                <td>
+                    {% if u.rol != 'administrador' %}
+                    <a class="btn btn-sm btn-danger"
+                       href="{{ url_for('usuarios.eliminar', usuario_id=u.id) }}"
+                       onclick="return confirm('¿Eliminar este usuario?')">Eliminar</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

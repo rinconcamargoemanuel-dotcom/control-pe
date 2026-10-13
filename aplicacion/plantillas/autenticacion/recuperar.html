@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Recuperar contraseña - Control P.E{% endblock %}
+{% block content %}
+<div class="login-wrap card">
+    <h1>¿Olvidaste tu contraseña?</h1>
+    <p class="small text-center">
+        Escribe tu correo. Si está registrado, te mostraremos aquí mismo
+        un enlace para elegir una contraseña nueva.
+    </p>
+    <form method="POST" autocomplete="off">
+        <label>Correo electrónico</label>
+        <input type="email" name="email" required autofocus autocomplete="off">
+        <button class="btn" type="submit" style="width:100%">Continuar</button>
+    </form>
+    <p class="text-center mt-1 small">
+        <a href="{{ url_for('autenticacion.iniciar_sesion') }}">&larr; Volver a iniciar sesión</a>
+    </p>
+</div>
+{% endblock %}

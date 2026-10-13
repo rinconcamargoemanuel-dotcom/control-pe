@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Horas / Bitácora - Control P.E{% endblock %}
+{% block content %}
+<div class="card">
+    <h2>Registrar horas / bitácora</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="grid">
+            <div>
+                <label>Fecha</label>
+                <input type="date" name="fecha" required>
+            </div>
+            <div>
+                <label>Horas realizadas</label>
+                <input type="number" step="0.5" min="0.5" name="horas" required>
+            </div>
+        </div>
+        <label>Descripción de la actividad</label>
+        <textarea name="actividad" rows="3" required placeholder="Describe la actividad realizada durante la práctica"></textarea>
+        <label>Foto o escaneo del control de horas físico </label>
+        <input type="file" name="archivo">
+        <p class="small">Formatos permitidos: pdf, png, jpg, jpeg, docx, xlsx.</p>
+        <button class="btn" type="submit">Guardar registro</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Historial de horas</h3>
+    <table>
+        <thead>
+            <tr><th>Fecha</th><th>Horas</th><th>Actividad</th><th>Archivo</th><th>Estado</th></tr>
+        </thead>
+        <tbody>
+        {% for r in registros %}
+            <tr>
+                <td>{{ r.fecha }}</td>
+                <td>{{ r.horas }}</td>
+                <td>{{ r.actividad }}</td>
+                <td>
+                        <a href="{{ url_for('static', filename='imagenes/subidas/' + r.archivo) }}" target="_blank">Ver archivo</a>
+                </td>
+                <td><span class="badge badge-{{ r.estado }}">{{ r.estado }}</span></td>
+            </tr>
+        {% else %}
+            <tr><td colspan="5" class="text-center small">Sin registros aún.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Panel de seguimiento - Control P.E{% endblock %}
+{% block content %}
+<div class="card">
+    <h2>Panel de seguimiento</h2>
+    <p class="small">Listado de estudiantes en proceso de prácticas empresariales. Meta: {{ meta_horas }} horas.</p>
+    <form method="GET" style="display:flex; gap:0.5rem; max-width:400px;">
+        <input type="text" name="buscar" placeholder="Buscar estudiante por nombre..." value="{{ busqueda }}">
+        <button class="btn btn-sm" type="submit">Buscar</button>
+        {% if busqueda %}<a class="btn btn-sm btn-outline" href="{{ url_for('panel.principal') }}">Limpiar</a>{% endif %}
+    </form>
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>Estudiante</th>
+                <th>Empresa</th>
+                <th>Progreso de horas</th>
+                <th>Horas pendientes</th>
+                <th>Evidencias pendientes</th>
+                <th>ARL pendiente</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for r in resumen %}
+            <tr>
+                <td>{{ r.estudiante.nombre }}</td>
+                <td>{{ r.estudiante.empresa or "—" }}</td>
+                <td>
+                    <div class="barra-progreso barra-progreso-sm">
+                        <div class="barra-progreso-relleno" style="width: {{ r.porcentaje }}%;"></div>
+                    </div>
+                    <span class="small">{{ r.horas }} / {{ meta_horas }} ({{ r.porcentaje }}%)</span>
+                </td>
+                <td>{{ r.pend_horas }}</td>
+                <td>{{ r.pend_evid }}</td>
+                <td>{{ r.pend_arl }}</td>
+                <td><a class="btn btn-sm" href="{{ url_for('estudiantes.ver', estudiante_id=r.estudiante.id) }}">Ver detalle</a></td>
+            </tr>
+        {% else %}
+            <tr><td colspan="7" class="text-center small">
+                {% if busqueda %}No se encontraron estudiantes con ese nombre.{% else %}Aún no hay estudiantes registrados.{% endif %}
+            </td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

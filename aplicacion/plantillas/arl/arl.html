@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Control ARL - Control P.E{% endblock %}
+{% block content %}
+<div class="card">
+    <h2>Cargar Afiliación ARL Mensual</h2>
+    <form method="POST" enctype="multipart/form-data">
+            <div class="grid">
+            <div>
+                <label>Mes</label>
+                <select name="mes" required>
+                    {% for m in meses %}
+                        <option value="{{ m }}" {% if m == mes_actual %}selected{% endif %}>{{ m }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label>Año</label>
+                <input type="number" name="anio" value="{{ anio_actual }}" required>
+            </div>
+        </div>
+        <div style="display:flex; gap:20px; flex-wrap:wrap; margin-top:10px;">
+            <p class="small">⚠️ Verifica que este sea el mes correcto antes de cargar el archivo.</p>
+            <p class="small">⚠️ ¿El ARL está activo? Verifica que tu afiliación no esté vencida antes de cargar el archivo.</p>
+        </div>
+        <label>Certificado de afiliación (pdf, png, jpg, jpeg)</label>
+        <input type="file" name="archivo" required>
+        <button class="btn" type="submit">Cargar afiliación</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Historial de afiliación ARL</h3>
+    <table>
+        <thead>
+            <tr><th>Mes</th><th>Año</th><th>Fecha de carga</th><th>Archivo</th><th>Estado</th></tr>
+        </thead>
+        <tbody>
+        {% for r in registros %}
+            <tr>
+                <td>{{ r.mes }}</td>
+                <td>{{ r.anio }}</td>
+                <td>{{ r.fecha_carga }}</td>
+                <td><a href="{{ url_for('static', filename='imagenes/subidas/' + r.archivo) }}" target="_blank">Ver archivo</a></td>
+                <td><span class="badge badge-{{ r.estado }}">{{ r.estado }}</span></td>
+            </tr>
+        {% else %}
+            <tr><td colspan="5" class="text-center small">Sin registros de ARL aún.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

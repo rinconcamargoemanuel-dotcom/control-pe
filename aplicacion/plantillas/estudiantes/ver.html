@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block title %}{{ estudiante.nombre }} - Control P.E{% endblock %}
+{% block content %}
+<div class="card">
+    <h2>{{ estudiante.nombre }}</h2>
+    <p class="small">
+        {{ estudiante.email }} · Empresa: {{ estudiante.empresa or "No registrada" }}
+        · Grado: {{ estudiante.grado or "—" }}
+    </p>
+    <div class="stat" style="max-width:220px">
+        <div class="num">{{ total_aprobadas }}</div>
+        <div class="label">Horas aprobadas</div>
+    </div>
+    <div class="progreso-wrap" style="max-width:400px">
+        <div class="progreso-info">
+            <strong>{{ total_aprobadas }} / {{ meta_horas }} horas</strong>
+            <span class="small">{{ porcentaje }}%</span>
+        </div>
+        <div class="barra-progreso">
+            <div class="barra-progreso-relleno" style="width: {{ porcentaje }}%;"></div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Bitácora</h3>
+    <table>
+        <thead><tr><th>Mes</th><th>Año</th><th>Archivo</th><th>Estado</th>
+        {% if session_rol in ['docente','coordinador'] %}<th>Acción</th>{% endif %}</tr></thead>
+        <tbody>
+        {% for b in bitacora_registros %}
+            <tr>
+                <td>{{ b.mes }}</td>
+                <td>{{ b.anio }}</td>
+                <td><a href="{{ url_for('static', filename='imagenes/subidas/' + b.archivo) }}" target="_blank">Ver</a></td>
+                <td><span class="badge badge-{{ b.estado }}">{{ b.estado }}</span></td>
+                {% if session_rol in ['docente','coordinador'] %}
+                <td>
+                    <a class="btn btn-sm btn-green" href="{{ url_for('estudiantes.validar', tipo='bitacora', registro_id=b.id, accion='Aprobado') }}">Aprobar</a>
+                    <a class="btn btn-sm btn-danger" href="{{ url_for('estudiantes.validar', tipo='bitacora', registro_id=b.id, accion='Rechazado') }}">Rechazar</a>
+                </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr><td colspan="5" class="text-center small">Sin registros de bitácora.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h3>Control de Horas</h3>
+    <table>
+        <thead><tr><th>Mes</th><th>Año</th><th>Total horas</th><th>Archivo</th><th>¿Después de 6pm?</th><th>Estado</th>
+        {% if session_rol in ['docente','coordinador'] %}<th>Acción</th>{% endif %}</tr></thead>
+        <tbody>
+        {% for c in control_horas_registros %}
+            <tr>
+                <td>{{ c.mes }}</td>
+                <td>{{ c.anio }}</td>
+                <td>{{ c.total_horas }}</td>
+                <td><a href="{{ url_for('static', filename='imagenes/subidas/' + c.archivo) }}" target="_blank">Ver</a></td>
+                <td>{{ c.trabaja_despues_6pm }}</td>
+                <td><span class="badge badge-{{ c.estado }}">{{ c.estado }}</span></td>
+                {% if session_rol in ['docente','coordinador'] %}
+                <td>
+                    <a class="btn btn-sm btn-green" href="{{ url_for('estudiantes.validar', tipo='control_horas', registro_id=c.id, accion='Aprobado') }}">Aprobar</a>
+                    <a class="btn btn-sm btn-danger" href="{{ url_for('estudiantes.validar', tipo='control_horas', registro_id=c.id, accion='Rechazado') }}">Rechazar</a>
+                </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr><td colspan="7" class="text-center small">Sin registros de control de horas.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h3>Evidencias</h3>
+    <table>
+        <thead><tr><th>Fecha</th><th>Descripción</th><th>Archivo</th><th>Estado</th>
+        {% if session_rol in ['docente','coordinador'] %}<th>Acción</th>{% endif %}</tr></thead>
+        <tbody>
+        {% for e in evidencias %}
+            <tr>
+                <td>{{ e.fecha }}</td>
+                <td>{{ e.descripcion }}</td>
+                <td><a href="{{ url_for('static', filename='imagenes/subidas/' + e.archivo) }}" target="_blank">Ver</a></td>
+                <td><span class="badge badge-{{ e.estado }}">{{ e.estado }}</span></td>
+                {% if session_rol in ['docente','coordinador'] %}
+                <td>
+                    <a class="btn btn-sm btn-green" href="{{ url_for('estudiantes.validar', tipo='evidencias', registro_id=e.id, accion='Aprobado') }}">Aprobar</a>
+                    <a class="btn btn-sm btn-danger" href="{{ url_for('estudiantes.validar', tipo='evidencias', registro_id=e.id, accion='Rechazado') }}">Rechazar</a>
+                </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr><td colspan="5" class="text-center small">Sin evidencias.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h3>Afiliación ARL</h3>
+    <table>
+        <thead><tr><th>Mes</th><th>Año</th><th>Archivo</th><th>Estado</th>
+        {% if session_rol in ['docente','coordinador'] %}<th>Acción</th>{% endif %}</tr></thead>
+        <tbody>
+        {% for a in arl_registros %}
+            <tr>
+                <td>{{ a.mes }}</td>
+                <td>{{ a.anio }}</td>
+                <td><a href="{{ url_for('static', filename='imagenes/subidas/' + a.archivo) }}" target="_blank">Ver</a></td>
+                <td><span class="badge badge-{{ a.estado }}">{{ a.estado }}</span></td>
+                {% if session_rol in ['docente','coordinador'] %}
+                <td>
+                    <a class="btn btn-sm btn-green" href="{{ url_for('estudiantes.validar', tipo='arl', registro_id=a.id, accion='Aprobado') }}">Aprobar</a>
+                    <a class="btn btn-sm btn-danger" href="{{ url_for('estudiantes.validar', tipo='arl', registro_id=a.id, accion='Rechazado') }}">Rechazar</a>
+                </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr><td colspan="5" class="text-center small">Sin registros de ARL.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h3>Documentos</h3>
+    {% set nombres_doc = {
+        'hoja_vida': 'Hoja de vida',
+        'documento_identidad': 'Documento de identidad',
+        'seguro_estudiantil': 'Seguro estudiantil',
+        'eps': 'EPS',
+        'sisben': 'SISBEN',
+        'carta_presentacion': 'Carta de presentación',
+    } %}
+    <table>
+        <thead><tr><th>Documento</th><th>Archivo</th><th>Fecha de carga</th></tr></thead>
+        <tbody>
+        {% for d in documentos_registros %}
+            <tr>
+                <td>{{ nombres_doc.get(d.tipo, d.tipo) }}</td>
+                <td><a href="{{ url_for('static', filename='imagenes/subidas/' + d.archivo) }}" target="_blank">Ver</a></td>
+                <td>{{ d.fecha_carga }}</td>
+            </tr>
+        {% else %}
+            <tr><td colspan="3" class="text-center small">Sin documentos cargados.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<a class="btn btn-sm" href="{{ url_for('panel.principal') }}">&larr; Volver al listado</a>
+{% endblock %}

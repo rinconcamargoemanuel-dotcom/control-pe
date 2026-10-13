@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %}Elige tu modalidad - Control P.E{% endblock %}
+{% block content %}
+<div class="login-wrap card" style="max-width:560px;">
+    <h1>Elige tu modalidad de práctica</h1>
+    <p class="small text-center">Esta elección determina cómo se calculan tus horas. Solo se pide una vez.</p>
+
+    <form method="POST" id="form-modalidad">
+        <!-- Paso 1: modalidad principal -->
+        <p class="opcion-modalidad-titulo" style="margin-top:1rem;">1. Elige tu modalidad</p>
+        <div class="opciones-modalidad">
+            <label class="opcion-modalidad">
+                <input type="radio" name="modalidad_principal" value="proyecto_productivo"
+                       onchange="actualizarPasos()" required>
+                <div class="opcion-modalidad-contenido">
+                    <span class="opcion-modalidad-titulo">Proyecto Productivo</span>
+                </div>
+            </label>
+            <label class="opcion-modalidad">
+                <input type="radio" name="modalidad_principal" value="pasantias" onchange="actualizarPasos()">
+                <div class="opcion-modalidad-contenido">
+                    <span class="opcion-modalidad-titulo">Pasantías (Vínculo Laboral)
+                </div>
+            </label>
+            <label class="opcion-modalidad">
+                <input type="radio" name="modalidad_principal" value="contrato_aprendizaje" onchange="actualizarPasos()">
+                <div class="opcion-modalidad-contenido">
+                    <span class="opcion-modalidad-titulo">Contrato de Aprendizaje</span>
+                </div>
+            </label>
+            <label class="opcion-modalidad">
+                <input type="radio" name="modalidad_principal" value="monitorias" onchange="actualizarPasos()">
+                <div class="opcion-modalidad-contenido">
+                    <span class="opcion-modalidad-titulo">Monitorías</span>
+                </div>
+            </label>
+        </div>
+
+        <!-- Paso 2: porcentaje (oculto hasta elegir modalidad principal) -->
+        <div id="paso-porcentaje" style="display:none;">
+            <p class="opcion-modalidad-titulo">2. ¿Cómo distribuyes tus horas?</p>
+            <div class="opciones-modalidad">
+                <label class="opcion-modalidad">
+                    <input type="radio" name="porcentaje_modalidad" value="100" onchange="actualizarPasos()">
+                    <div class="opcion-modalidad-contenido">
+                        <span class="opcion-modalidad-titulo">100%</span>
+                        <span class="small">Haces el 100% de tus horas en esta modalidad.</span>
+                    </div>
+                </label>
+                <label class="opcion-modalidad">
+                    <input type="radio" name="porcentaje_modalidad" value="50" onchange="actualizarPasos()">
+                    <div class="opcion-modalidad-contenido">
+                        <span class="opcion-modalidad-titulo">50%</span>
+                        <span class="small">Terminas el 50% de esta modalidad con otra.</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <!-- Paso 3: modalidad secundaria (oculto hasta elegir 50%) -->
+        <div id="paso-secundaria" style="display:none;">
+            <p class="opcion-modalidad-titulo">3. ¿Con qué otra modalidad completas el 50%?</p>
+            <div class="opciones-modalidad">
+                <label class="opcion-modalidad opcion-secundaria" data-valor="proyecto_productivo">
+                    <input type="radio" name="modalidad_secundaria" value="proyecto_productivo">
+                    <div class="opcion-modalidad-contenido">
+                        <span class="opcion-modalidad-titulo">Proyecto Productivo</span>
+                    </div>
+                </label>
+                <label class="opcion-modalidad opcion-secundaria" data-valor="pasantias">
+                    <input type="radio" name="modalidad_secundaria" value="pasantias">
+                    <div class="opcion-modalidad-contenido">
+                        <span class="opcion-modalidad-titulo">Pasantías (Vínculo Laboral)</span>
+                    </div>
+                </label>
+                <label class="opcion-modalidad opcion-secundaria" data-valor="contrato_aprendizaje">
+                    <input type="radio" name="modalidad_secundaria" value="contrato_aprendizaje">
+                    <div class="opcion-modalidad-contenido">
+                        <span class="opcion-modalidad-titulo">Contrato de Aprendizaje</span>
+                    </div>
+                </label>
+                <label class="opcion-modalidad opcion-secundaria" data-valor="monitorias">
+                    <input type="radio" name="modalidad_secundaria" value="monitorias">
+                    <div class="opcion-modalidad-contenido">
+                        <span class="opcion-modalidad-titulo">Monitorías</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <button class="btn" type="submit" style="width:100%;">Guardar modalidad</button>
+    </form>
+</div>
+
+<script>
+function actualizarPasos() {
+    var principalSeleccionada = document.querySelector('input[name="modalidad_principal"]:checked');
+    var pasoPorcentaje = document.getElementById("paso-porcentaje");
+    var pasoSecundaria = document.getElementById("paso-secundaria");
+
+    if (principalSeleccionada) {
+        pasoPorcentaje.style.display = "block";
+    } else {
+        pasoPorcentaje.style.display = "none";
+        pasoSecundaria.style.display = "none";
+        return;
+    }
+
+    var porcentajeSeleccionado = document.querySelector('input[name="porcentaje_modalidad"]:checked');
+    if (porcentajeSeleccionado && porcentajeSeleccionado.value === "50") {
+        pasoSecundaria.style.display = "block";
+        // Ocultar, en el paso 3, la opción igual a la modalidad principal elegida
+        document.querySelectorAll(".opcion-secundaria").forEach(function (label) {
+            if (label.getAttribute("data-valor") === principalSeleccionada.value) {
+                label.style.display = "none";
+                label.querySelector("input").checked = false;
+                label.querySelector("input").required = false;
+            } else {
+                label.style.display = "block";
+                label.querySelector("input").required = true;
+            }
+        });
+    } else {
+        pasoSecundaria.style.display = "none";
+        document.querySelectorAll('input[name="modalidad_secundaria"]').forEach(function (input) {
+            input.required = false;
+            input.checked = false;
+        });
+    }
+}
+</script>
+{% endblock %}

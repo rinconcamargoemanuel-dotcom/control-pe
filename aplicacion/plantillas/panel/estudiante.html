@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Mi panel - Control P.E{% endblock %}
+{% block content %}
+<div class="card">
+    <h2>Hola, {{ session_user|capitalizar }}</h2>
+    {% set nombres_modalidad = {
+        'proyecto_productivo': 'Proyecto Productivo',
+        'pasantias': 'Pasantías',
+        'contrato_aprendizaje': 'Contrato de Aprendizaje',
+        'monitorias': 'Monitorías',
+    } %}
+    {% if modalidad_principal %}
+    <p class="small">
+        Modalidad:
+        {% if porcentaje_modalidad == '50' and modalidad_secundaria %}
+            {{ nombres_modalidad[modalidad_principal] }} (50%) + {{ nombres_modalidad[modalidad_secundaria] }} (50%)
+        {% else %}
+            {{ nombres_modalidad[modalidad_principal] }} (100%)
+        {% endif %}
+    </p>
+    {% endif %}
+    <p class="small">Este es tu resumen del proceso de prácticas empresariales.</p>
+
+    <div class="progreso-wrap">
+        <div class="progreso-info">
+            <strong style="color: {{ 'red' if hay_horas_pendientes else 'green' }};">
+                {{ total_horas }} / {{ meta_horas }} horas
+            </strong>
+            <span class="small">{{ porcentaje }}% completado · faltan {{ horas_faltantes }} horas</span>
+        </div>
+        <div class="barra-progreso barra-progreso-grande">
+            <div class="barra-progreso-relleno"
+                 style="width: {{ porcentaje }}%; background-color: {{ 'red' if hay_horas_pendientes else 'green' }};">
+                {% if porcentaje > 8 %}{{ porcentaje }}%{% endif %}
+            </div>
+        </div>
+        {% if hay_horas_pendientes %}
+        <p class="small" style="color:red;">Tienes horas cargadas pendientes de aprobación.</p>
+        {% endif %}
+    </div>
+
+    <div class="grid">
+        <div class="stat stat-icono">
+            <div class="icono">⏱️</div>
+            <div>
+                <div class="num">{{ total_horas }}</div>
+                <div class="label">{{ "Horas registradas (pendientes)" if hay_horas_pendientes else "Horas aprobadas" }}</div>
+            </div>
+        </div>
+        <div class="stat stat-icono">
+            <div class="icono">📝</div>
+            <div>
+                <div class="num">{{ pendientes }}</div>
+                <div class="label">Informe de horas pendientes</div>
+            </div>
+        </div>
+        <div class="stat stat-icono">
+            <div class="icono">📎</div>
+            <div>
+                <div class="num">{{ evidencias }}</div>
+                <div class="label">Evidencias cargadas</div>
+            </div>
+        </div>
+        <div class="stat stat-icono">
+            <div class="icono">🩺</div>
+            <div>
+                <div class="num">{{ "Sí" if arl_mes else "No" }}</div>
+                <div class="label">ARL cargada ({{ mes_actual }})</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid">
+    <div class="card">
+        <h3 style="color: {{ 'green' if bitacora_mes else 'red' }};">📘 Bitácora</h3>
+        <p class="small">Carga tu bitácora mensual de seguimiento.</p>
+        <a class="btn" href="{{ url_for('bitacora.bitacora') }}">Ir a bitácora</a>
+    </div>
+    <div class="card">
+        <h3 style="color: {{ 'green' if control_horas_mes else 'red' }};">📎 Control de Horas</h3>
+        <p class="small">Sube tu control de horas mensual y evidencias de tus actividades.</p>
+        <a class="btn" href="{{ url_for('evidencias.evidencias') }}">Ir a control de horas</a>
+    </div>
+    <div class="card">
+        <h3 style="color: {{ 'green' if arl_mes else 'red' }};">🩺 Afiliación ARL</h3>
+        <p class="small">Carga mensualmente tu certificado de afiliación a la ARL.</p>
+        <a class="btn" href="{{ url_for('arl.arl') }}">Ir a control ARL</a>
+    </div>
+    <div class="card">
+        <h3>📄 Mis Documentos</h3>
+        <p class="small">Sube o actualiza tu hoja de vida, documento de identidad, EPS y más.</p>
+        <a class="btn" href="{{ url_for('documentos.documentos') }}">Ir a documentos</a>
+    </div>
+</div>
+{% endblock %}

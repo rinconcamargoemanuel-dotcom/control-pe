@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Mi perfil - Control P.E{% endblock %}
+{% block content %}
+<div class="card" style="max-width:500px;margin:0 auto;">
+    <h1>Mi perfil</h1>
+    <p class="small text-center">Información de tu cuenta</p>
+    <hr>
+    <form method="POST">
+        <label>Nombre completo</label>
+        <input type="text" name="nombre" value="{{ usuario.nombre }}" required>
+
+        <label>Correo electrónico</label>
+        <input type="email" name="email" value="{{ usuario.email }}" required>
+
+        <label>Rol</label>
+        <input type="text" value="{{ usuario.rol | capitalize }}" disabled>
+
+        {% if usuario.rol == 'estudiante' %}
+        <label>Fecha de inicio de prácticas</label>
+        <input type="date" name="fecha_inicio_practicas" value="{{ usuario.fecha_inicio_practicas or '' }}">
+
+        <label>Empresa donde realiza la práctica</label>
+        <input type="text" name="empresa" value="{{ usuario.empresa or '' }}" placeholder="Nombre de la empresa">
+
+        <label>Grado</label>
+        <select name="grado" required>
+            <option value="">Selecciona tu grado</option>
+            <option value="10-6" {% if usuario.grado == '10-6' %}selected{% endif %}>10-6</option>
+            <option value="11-6" {% if usuario.grado == '11-6' %}selected{% endif %}>11-6</option>
+        </select>
+        {% endif %}
+
+        <button class="btn" type="submit" style="width:100%;margin-top:10px;">Guardar cambios</button>
+    </form>
+</div>
+{% endblock %}

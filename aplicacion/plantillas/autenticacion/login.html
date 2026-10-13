@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Iniciar sesión - Control P.E{% endblock %}
+{% block body_class %}pagina-login{% endblock %}
+{% block content %}
+<div class="login-wrap card login-con-fondo">
+    <h1>Iniciar sesión</h1>
+    <p class="small text-center">Sistema de Control de Prácticas Empresariales</p>
+    <form method="POST" autocomplete="off">
+        <label>Correo electrónico</label>
+        <input type="email" name="email" required autofocus autocomplete="off">
+        <label>Contraseña</label>
+        <input type="password" name="password" required autocomplete="new-password">
+        <button class="btn" type="submit" style="width:100%">Ingresar</button>
+    </form>
+    <p class="text-center mt-1 small">
+        <a href="{{ url_for('autenticacion.recuperar_password') }}">¿Olvidaste tu contraseña?</a>
+    </p>
+    <p class="text-center mt-1 small">
+        ¿Eres estudiante y no tienes cuenta?
+        <a href="{{ url_for('autenticacion.registro') }}">Regístrate aquí</a>
+    </p>
+
+</div>
+{% endblock %}

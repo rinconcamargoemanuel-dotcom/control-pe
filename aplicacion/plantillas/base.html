@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Control P.E{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+<header class="navbar">
+    <div class="navbar-brand">
+        <img src="{{ url_for('static', filename='imagenes/logo/logo.png') }}" alt="Logo Control P.E" class="logo-img">        
+    <div>
+            <strong>CONTROL P.E</strong>
+            <small>Sistema de Control de Prácticas Empresariales</small>
+        </div>
+    </div>
+    {% if session_user %}
+    <nav class="navbar-links">
+        <a href="{{ url_for('panel.principal') }}">Inicio</a>
+        {% if session_rol == 'estudiante' %}
+            <a href="{{ url_for('bitacora.bitacora') }}">Bitácora</a>
+            <a href="{{ url_for('evidencias.evidencias') }}">Control de Horas</a>
+            <a href="{{ url_for('arl.arl') }}">ARL</a>
+            <a href="{{ url_for('documentos.documentos') }}">Documentos</a>
+            <a href="{{ url_for('historial.historial') }}">Historial</a>
+        {% endif %}
+        {% if session_rol == 'administrador' %}
+            <a href="{{ url_for('usuarios.lista') }}">Usuarios</a>
+        {% endif %}
+    </nav>
+    <div class="navbar-user">
+        <button id="btn-modo-oscuro" class="btn-tema" type="button">🌙 Oscuro</button>
+        <a href="{{ url_for('autenticacion.perfil') }}">{{ session_user|capitalizar }} <em>({{ session_rol }})</em></a>
+        <a class="btn-outline" href="{{ url_for('autenticacion.cerrar_sesion') }}">Salir</a>
+    </div>
+    {% endif %}
+</header>
+
+{% if request.endpoint != 'autenticacion.elegir_modalidad' and total_avisos_pendientes > 0 %}
+<details class="banner-avisos">
+    <summary>⚠️ Tienes {{ total_avisos_pendientes }} pendiente(s) — ver detalle</summary>
+    <div class="banner-avisos-contenido">
+        {% if arl_pendiente %}
+        <p>⚠️ <strong>Aún no has cargado tu afiliación ARL de este mes.</strong> Es muy importante mantenerla al día.
+            <a href="{{ url_for('arl.arl') }}">Cárgala ahora →</a></p>
+        {% endif %}
+        {% if bitacora_pendiente %}
+        <p>⚠️ <strong>Aún no has cargado tu bitácora de este mes.</strong>
+            <a href="{{ url_for('bitacora.bitacora') }}">Cárgala ahora →</a></p>
+        {% endif %}
+        {% if control_horas_pendiente %}
+        <p>⚠️ <strong>Aún no has cargado tu control de horas de este mes.</strong>
+            <a href="{{ url_for('evidencias.evidencias') }}">Cárgala ahora →</a></p>
+        {% endif %}
+        {% if etapa_productiva_pendiente %}
+        <p>⚠️ <strong>Aún no has cargado tus 432 horas de etapa productiva (grado 10).</strong>
+            <a href="{{ url_for('evidencias.evidencias') }}">Cárgala ahora →</a></p>
+        {% endif %}
+        {% if plazo_bitacora_dias_restantes is not none %}
+        <p>⏳ <strong>Te quedan {{ plazo_bitacora_dias_restantes }} día(s) para subir la bitácora de {{ mes_anterior_nombre }}.</strong>
+            <a href="{{ url_for('bitacora.bitacora') }}">Cárgala ahora →</a></p>
+        {% endif %}
+        {% if plazo_bitacora_vencido %}
+        <p style="color:#842029;">❌ <strong>Se venció el plazo para subir la bitácora de {{ mes_anterior_nombre }}.</strong> Contacta a tu docente de seguimiento.</p>
+        {% endif %}
+        {% if plazo_control_horas_dias_restantes is not none %}
+        <p>⏳ <strong>Te quedan {{ plazo_control_horas_dias_restantes }} día(s) para subir el control de horas de {{ mes_anterior_nombre }}.</strong>
+            <a href="{{ url_for('evidencias.evidencias') }}">Cárgala ahora →</a></p>
+        {% endif %}
+        {% if plazo_control_horas_vencido %}
+        <p style="color:#842029;">❌ <strong>Se venció el plazo para subir el control de horas de {{ mes_anterior_nombre }}.</strong> Contacta a tu docente de seguimiento.</p>
+        {% endif %}
+    </div>
+</details>
+{% endif %}
+
+<main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+    Control P.E &mdash; Institución Educativa José Joaquín Flórez Hernández · Ibagué, Tolima
+</footer>
+
+<script src="{{ url_for('static', filename='js/modo_oscuro.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ojo_password.js') }}"></script>
+</body>
+</html>

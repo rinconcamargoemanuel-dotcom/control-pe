@@ -1,0 +1,56 @@
+CONTROL P.E — NOTAS DE DISEÑO GRÁFICO
+========================================
+Este archivo es el "bloc de notas" del diseño visual del sistema.
+Cada vez que agregues o cambies una imagen, un color o una fuente,
+anótalo aquí para que quede documentado en un solo lugar.
+
+
+1) PALETA DE COLORES
+---------------------
+Definidos como variables CSS en: aplicacion/estaticos/css/estilos.css (líneas 1-9)
+
+  --azul        #1d4e89   Color principal (barra superior, botones, títulos)
+  --azul-osc    #123a63   Azul oscuro (títulos de tarjetas, texto fuerte)
+  --azul-claro  #eaf1fb   Azul muy claro (fondos suaves, mensajes informativos)
+  --verde       #2e8b57   Éxito / aprobado
+  --rojo        #c0392b   Error / rechazado
+  --gris        #5a6472   Texto secundario
+  --fondo       #f4f7fb   Fondo general de la página
+  --borde       #dde5ef   Bordes de tarjetas y tablas
+
+Si quieres cambiar el color principal de todo el sistema, solo edita
+la variable --azul en ese archivo; se actualiza en toda la aplicación.
+
+
+2) TIPOGRAFÍA
+--------------
+Fuente principal: "Segoe UI", Arial, sans-serif (definida en estilos.css, línea 16)
+  - Es una fuente del sistema (no requiere archivos ni descargas).
+  - Si se quiere una fuente distinta (ej. Google Fonts), agregar el
+    enlace <link> en aplicacion/plantillas/base.html y actualizar
+    font-family en estilos.css.
+
+
+3) INVENTARIO DE IMÁGENES
+---------------------------
+Carpeta: aplicacion/estaticos/imagenes/
+
+  imagenes/
+  ├── logo/          -> Logo del colegio / del sistema (si se agrega uno).
+  │                     Sugerido: logo/logo_control_pe.png (fondo transparente)
+  ├── iconos/        -> Iconos propios en PNG/SVG, si se dejan de usar los
+  │                     emojis actuales (📘 📎 🩺 en panel/estudiante.html)
+  └── subidas/       -> NO EDITAR A MANO. Aquí se guardan automáticamente
+                        los archivos que suben los estudiantes (evidencias
+                        y certificados ARL). Se llena solo desde la app.
+
+Estado actual: el sistema todavía no tiene logo ni iconos propios cargados;
+usa solo emojis de texto y la sigla "C.P.E" como logo (ver base.html).
+Cuando agregues una imagen nueva, anótala aquí: nombre del archivo, carpeta
+donde quedó, y en qué plantilla .html se usa.
+
+Ejemplo de cómo anotar una imagen nueva agregada:
+  - Archivo: logo_control_pe.png
+  - Carpeta: aplicacion/estaticos/imagenes/logo/
+  - Usada en: aplicacion/plantillas/base.html (dentro de .navbar-brand)
+  - Fecha agregada: --

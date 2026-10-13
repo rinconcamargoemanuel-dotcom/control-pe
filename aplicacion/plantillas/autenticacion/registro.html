@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Registro - Control P.E{% endblock %}
+{% block content %}
+<div class="login-wrap card">
+    <h1>Registro de estudiante</h1>
+    <form method="POST">
+        <label>Nombre completo</label>
+        <input type="text" name="nombre" required>
+        <label>Correo electrónico</label>
+        <input type="email" name="email" required>
+        <label>Contraseña</label>
+        <input type="password" name="password" required minlength="6">
+        <label>Grado</label>
+<select name="grado" required>
+    <option value="">Selecciona tu grado</option>
+    <option value="10-6">10-6</option>
+    <option value="11-6">11-6</option>
+</select>
+        <label>Empresa donde realiza la práctica</label>
+        <input type="text" name="empresa" placeholder="Nombre de la empresa">
+        <button class="btn" type="submit" style="width:100%">Crear cuenta</button>
+    </form>
+    <p class="text-center mt-1 small">
+        ¿Ya tienes cuenta? <a href="{{ url_for('autenticacion.iniciar_sesion') }}">Inicia sesión</a>
+    </p>
+</div>
+{% endblock %}
