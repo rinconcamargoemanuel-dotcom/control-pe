@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+venv/
+.env
+.pytest_cache/
+aplicacion/estaticos/imagenes/subidas/*
+!aplicacion/estaticos/imagenes/subidas/.gitkeep
